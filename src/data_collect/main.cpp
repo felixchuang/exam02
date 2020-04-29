@@ -97,6 +97,10 @@ void record(void) {
 
    uint8_t res[6];
 
+   float tmp[3];
+
+  int rec;
+  
    FXOS8700CQ_readRegs(FXOS8700Q_OUT_X_MSB, res, 6);
 
    blueLED = ! blueLED;
@@ -124,8 +128,25 @@ void record(void) {
      acc16 -= UINT14_MAX;
 
    z = ((float)acc16) / 4096.0f;
+  if(tmp[0] - x > 0.005 || tmp[0] - x < -0.005){
+    rec = 1;
+  }
+  else if(tmp[1] - y > 0.005 || tmp[1] -y < -0.005){
+    rec = 1;
+  }
+  else
+    rec = 0;
 
+  printf("rec = %d\n", rec);
    printf("%f, %f, %f\n", x * 1000.0, y * 1000.0, z * 1000.0);
+
+
+
+   tmp[0] = x;
+   tmp[1] = y;
+   tmp[2] = z;
+
+   
 
 }
 
